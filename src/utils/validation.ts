@@ -1,8 +1,20 @@
 import { z } from 'zod';
 
+export const SUPPORTED_IATA_CODES = [
+    "ATL", "PEK", "LAX", "DXB", "HND", "ORD", "LHR", "PVG", "CDG", "DFW",
+    "AMS", "FRA", "IST", "CAN", "JFK", "SIN", "DEN", "ICN", "BKK", "SFO",
+    "LAS", "CLT", "MIA", "KUL", "SEA", "MUC", "EWR", "MAD", "HKG", "MCO",
+    "PHX", "IAH", "SYD", "MEL", "GRU", "YYZ", "LGW", "BCN", "MAN", "BOM",
+    "DEL", "ZRH", "SVO", "DME", "JNB", "ARN", "OSL", "CPH", "HEL", "VIE"
+] as const;
+
 export const TripSearchSchema = z.object({
-    origin: z.string().length(3).regex(/^[A-Z]{3}$/, 'Must be a 3-letter IATA code'),
-    destination: z.string().length(3).regex(/^[A-Z]{3}$/, 'Must be a 3-letter IATA code'),
+    origin: z.enum(SUPPORTED_IATA_CODES, {
+        errorMap: () => ({ message: 'Origin must be one of the supported IATA codes' })
+    }),
+    destination: z.enum(SUPPORTED_IATA_CODES, {
+        errorMap: () => ({ message: 'Destination must be one of the supported IATA codes' })
+    }),
     sort_by: z.enum(['fastest', 'cheapest'])
 });
 

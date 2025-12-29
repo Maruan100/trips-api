@@ -26,7 +26,13 @@ describe('Trip API', () => {
             expect(response.body[2].id).toBe('1');
         });
 
-        it('should return 400 for invalid parameters', async () => {
+        it('should return 400 for unsupported IATA code', async () => {
+            const response = await request(app).get('/api/trips?origin=ZZZ&destination=GRU&sort_by=fastest');
+            expect(response.status).toBe(400);
+            expect(response.body.message).toContain('Origin must be one of the supported IATA codes');
+        });
+
+        it('should return 400 for invalid format IATA code', async () => {
             const response = await request(app).get('/api/trips?origin=SY&destination=GRU&sort_by=fastest');
             expect(response.status).toBe(400);
         });
