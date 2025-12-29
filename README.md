@@ -17,7 +17,7 @@ A Node.js API to search for flights and manage trips.
    ```bash
    npm install
    ```
-3. Configure environment variables in `.env` (already provided for test):
+3. Configure environment variables creating a `.env`:
    ```
    PORT=3000
    API_KEY=your_api_key_here
